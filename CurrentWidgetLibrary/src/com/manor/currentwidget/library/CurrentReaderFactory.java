@@ -37,7 +37,7 @@ public class CurrentReaderFactory {
 		if (CurrentReaderFactory.BUILD_MODEL.contains("m8")) {
 		        f = new File("/sys/class/power_supply/battery/batt_current_now");
 		        if (f.exists())
-			        return OneLineReader.getValue(f, false);
+			        return OneLineReader.getValue(f, true);
         }
 
 		// Galaxy S3
