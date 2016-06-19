@@ -33,8 +33,6 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import yuku.ambilwarna.AmbilWarnaDialog;
-import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -72,9 +70,6 @@ public class CurrentWidgetConfigure extends PreferenceActivity implements
 
 	public static final String URL = "https://market.android.com/details?id=com.manor.currentwidget";
 	
-	// The request code must be 0 or higher.
-	public static final int PLUS_ONE_REQUEST_CODE = 1;
-
 	private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
 	public final static String SHARED_PREFS_NAME = "currentWidgetPrefs";
@@ -92,10 +87,6 @@ public class CurrentWidgetConfigure extends PreferenceActivity implements
 		super.onResume();
 		getPreferenceScreen().getSharedPreferences()
 				.registerOnSharedPreferenceChangeListener(this);
-		PlusOnePreference p = ((PlusOnePreference)findPreference("rate"));
-		if (p != null) {
-			p.Initialize();
-		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -522,26 +513,8 @@ public class CurrentWidgetConfigure extends PreferenceActivity implements
 					.execute(new ValuesCountLineProcessor());
 			return true;
 		} else if (preference.getKey().equals("text_textColor")) {
-			SharedPreferences settings = getSharedPreferences(
-					SHARED_PREFS_NAME, 0);
-			AmbilWarnaDialog dialog = new AmbilWarnaDialog(this,
-					settings.getInt(getString(R.string.pref_text_text_color),
-							0xFFFFFFFF), new OnAmbilWarnaListener() {
-						public void onOk(AmbilWarnaDialog dialog, int color) {
-							// color is the color selected by the user.
-							SharedPreferences settings = getSharedPreferences(
-									SHARED_PREFS_NAME, 0);
-							SharedPreferences.Editor editor = settings.edit();
-							editor.putInt(
-									getString(R.string.pref_text_text_color),
-									color);
-							editor.commit();
-						}
-						public void onCancel(AmbilWarnaDialog dialog) {
-							// cancel was selected by the user
-						}
-					});
-			dialog.show();
+			new logLineProcessorAsyncTask()
+					.execute(new ValuesCountLineProcessor());
 			return true;
 		} else if (preference.getKey().equals("excludedApps")) {
 			Intent i = new Intent(this, ExcludedAppsActivity.class);
