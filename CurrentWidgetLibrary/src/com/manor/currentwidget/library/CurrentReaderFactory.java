@@ -286,6 +286,11 @@ public class CurrentReaderFactory {
 			return OneLineReader.getValue(f, true);
 		}
 
+        // HTC One m8
+		f = new File("/sys/class/power_supply/battery/batt_current_now");
+		if (f.exists())
+			return OneLineReader.getValue(f, true);
+
 		f = new File("/sys/class/power_supply/Battery/current_now");
 		if (f.exists()) {
 			return OneLineReader.getValue(f, false);
