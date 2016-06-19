@@ -33,6 +33,13 @@ public class CurrentReaderFactory {
 	static public Long getValue() {
 		File f = null;
 		
+        // HTC One m8
+		if (CurrentReaderFactory.BUILD_MODEL.contains("m8")) {
+		        f = new File("/sys/class/power_supply/battery/batt_current_now");
+		        if (f.exists())
+			        return OneLineReader.getValue(f, false);
+        }
+
 		// Galaxy S3
 		if (CurrentReaderFactory.BUILD_MODEL.contains("gt-i9300")
 				|| CurrentReaderFactory.BUILD_MODEL.contains("gt-i9300T")
@@ -285,11 +292,6 @@ public class CurrentReaderFactory {
 		if (f.exists()) {
 			return OneLineReader.getValue(f, true);
 		}
-
-        // HTC One m8
-		f = new File("/sys/class/power_supply/battery/batt_current_now");
-		if (f.exists())
-			return OneLineReader.getValue(f, true);
 
 		f = new File("/sys/class/power_supply/Battery/current_now");
 		if (f.exists()) {
