@@ -210,7 +210,19 @@ public class CurrentWidget extends AppWidgetProvider {
 		}
 		
 		boolean isCharging = settings.getBoolean("is_charging", false);
-		
+        // Get information from battery intent.
+        try {
+            Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            if (batteryIntent != null) {
+                isCharging = batteryIntent.getIntExtra("status", 1) == BatteryManager.BATTERY_STATUS_CHARGING;
+            }
+        }
+        catch (Exception ex) {
+            Log.e("CurrentWidget", ex.getMessage());
+            ex.printStackTrace();
+        }		
+
+
 		if (isCharging) {
 			if (layoutId == R.layout.main) {
 				remoteViews.setImageViewResource(R.id.status_image, R.drawable.charging);
