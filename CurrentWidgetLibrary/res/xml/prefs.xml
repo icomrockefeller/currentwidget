@@ -220,12 +220,6 @@
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="About" >
-        <com.manor.currentwidget.library.PlusOnePreference
-            android:key="rate"
-            android:selectable="true"
-            android:title="Rate CurrentWidget"
-            android:widgetLayout="@layout/plusone_pref" />
-
         <Preference
             android:key="moreApps"
             android:summary="Browse for more applications"
